@@ -132,3 +132,10 @@ footer {
     opacity: 1;
     transform: translateY(0);
 }
+.menu {
+    margin-top: 20px; /* Espaciado superior */
+    padding: 20px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}

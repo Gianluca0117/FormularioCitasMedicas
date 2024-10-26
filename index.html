@@ -101,7 +101,95 @@
     </footer>
 </main>
 
-<script src="static/js/script.js" defer></script>
+<!-- Agrega el script de Firebase y la lógica para manejar los registros -->
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+  // Tu configuración de Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyCqfOQTdRNYTPGYiGh7E-UTFmrWcTPiRRI",
+    authDomain: "agenda-de-pacientes-4349b.firebaseapp.com",
+    projectId: "agenda-de-pacientes-4349b",
+    storageBucket: "agenda-de-pacientes-4349b.appspot.com",
+    messagingSenderId: "653031457613",
+    appId: "1:653031457613:web:3d9300916b99793dd4ad04",
+    measurementId: "G-BTLL9MX2MF"
+  };
+
+  // Inicializa Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getDatabase(app);
+
+  const formularioPacientes = document.getElementById("formulario-pacientes");
+  const pacientesList = document.getElementById("pacientes-list");
+  const totalPacientes = document.getElementById("total-pacientes");
+
+  // Función para registrar un paciente en la base de datos
+  formularioPacientes.addEventListener("submit", (event) => {
+    event.preventDefault(); // Evita el comportamiento por defecto del formulario
+    const nombre = document.getElementById("nombre").value;
+    const cedula = document.getElementById("cedula").value;
+    const telefono = document.getElementById("telefono").value;
+    const correo = document.getElementById("correo").value;
+    const direccion = document.getElementById("direccion").value;
+    const fechaNacimiento = document.getElementById("fecha_nacimiento").value;
+
+    // Guarda el paciente en Firebase
+    const pacienteRef = ref(db, 'pacientes/' + cedula);
+    set(pacienteRef, {
+      nombre: nombre,
+      cedula: cedula,
+      telefono: telefono,
+      correo: correo,
+      direccion: direccion,
+      fecha_nacimiento: fechaNacimiento
+    }).then(() => {
+      mostrarNotificacion("Paciente registrado exitosamente.");
+      formularioPacientes.reset();
+      obtenerPacientes(); // Actualiza la lista de pacientes
+    }).catch((error) => {
+      console.error("Error al registrar paciente:", error);
+    });
+  });
+
+  // Función para obtener la lista de pacientes
+  function obtenerPacientes() {
+    const pacientesRef = ref(db, 'pacientes/');
+    onValue(pacientesRef, (snapshot) => {
+      const data = snapshot.val();
+      pacientesList.innerHTML = ""; // Limpia la lista
+      let count = 0;
+
+      for (const key in data) {
+        const paciente = data[key];
+        const li = document.createElement("li");
+        li.textContent = paciente.nombre; // Muestra el nombre del paciente
+        pacientesList.appendChild(li);
+        count++;
+      }
+
+      totalPacientes.textContent = `Total de pacientes registrados: ${count}`;
+    });
+  }
+
+  // Función para mostrar notificaciones
+  function mostrarNotificacion(mensaje) {
+    const notificacion = document.getElementById("notificacion");
+    const mensajeNotificacion = document.getElementById("mensaje-notificacion");
+    mensajeNotificacion.textContent = mensaje;
+    notificacion.style.display = "block";
+    setTimeout(() => {
+      notificacion.style.display = "none";
+    }, 3000);
+  }
+
+  // Llama a la función para obtener la lista de pacientes al cargar la página
+  obtenerPacientes();
+</script>
+
 </body>
 </html>
-

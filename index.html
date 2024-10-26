@@ -8,20 +8,14 @@
     <meta name="author" content="Gianluca Ugalde">
     <title>Registro de Pacientes</title>
 
-    
-   <link rel="stylesheet" href="static/css/styles.css">
-   
-
-    
+    <link rel="stylesheet" href="static/css/styles.css">
 </head>
 <body>
-    
     
 <div id="notificacion" class="notificacion" style="display: none;">
     <p id="mensaje-notificacion"></p>
 </div>
 
-    
 <div id="comprobante-modal" class="modal" style="display: none;">
     <div class="modal-content glass-effect">
         <span class="close-comprobante">&times;</span>
@@ -36,72 +30,78 @@
     </div>
 </div>
 
-    <main class="container">
-        <div class="background-gradients"></div> 
+<main class="container">
+    <div class="background-gradients"></div> 
 
-        <div class="card glass-effect">
-            <h1>Registro de Pacientes</h1>
-            <form id="formulario-pacientes" action="/submit" method="POST">
-                <div class="input-group">
-                    <label for="nombre">Nombre Completo:</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Ej. Juan Pérez" required>
-                </div>
-               <div class="input-group">
-    <label for="cedula">Cédula:</label>
-    <input type="tel" id="cedula" name="cedula" required maxlength="10" placeholder="10 Digitos" required>
-</div>
-<div class="input-group">
-    <label for="telefono">Teléfono:</label>
-    <input type="tel" id="telefono" name="telefono" required maxlength="9" placeholder="9 Digitos" required>
-</div>
-                <div class="input-group">
-                    <label for="correo">Correo Electrónico:</label>
-                    <input type="email" id="correo" name="correo" placeholder="Ej. juan12@gmail.com" required>
+    <div class="card glass-effect">
+        <h1>Registro de Pacientes</h1>
+        <form id="formulario-pacientes" action="/submit" method="POST">
+            <div class="input-group">
+                <label for="nombre">Nombre Completo:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ej. Juan Pérez" required>
+            </div>
+            <div class="input-group">
+                <label for="cedula">Cédula:</label>
+                <input type="tel" id="cedula" name="cedula" required maxlength="10" placeholder="10 Digitos" required>
+            </div>
+            <div class="input-group">
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono" name="telefono" required maxlength="9" placeholder="9 Digitos" required>
+            </div>
+            <div class="input-group">
+                <label for="correo">Correo Electrónico:</label>
+                <input type="email" id="correo" name="correo" placeholder="Ej. juan12@gmail.com" required>
+            </div>
+            <div class="input-group">
+                <label for="direccion">Dirección:</label>
+                <input type="text" id="direccion" name="direccion" placeholder="Ej. Calle 123" required>
+            </div>
+            <div class="input-group">
+                <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
+            </div>
+            <button type="submit" class="btn glass-button">Registrar</button>
+        </form>
+    </div>
 
+    <!-- Agrega el bloque para mostrar la lista de pacientes registrados aquí -->
+    <div class="menu">
+        <h2>Pacientes Registrados</h2>
+        <ul id="pacientes-list"></ul>
+        <p id="total-pacientes"></p>
+    </div>
+
+    <div id="cita-modal" class="modal" style="display: none;">
+        <div class="modal-content glass-effect">
+            <span class="close">&times;</span>
+            <h2>Agendar Cita</h2>
+            <form id="formulario-citas" action="/schedule" method="POST">
+                <div class="input-group">
+                    <label for="fecha_cita">Fecha de Cita:</label>
+                    <input type="date" id="fecha_cita" name="fecha_cita" required>
                 </div>
                 <div class="input-group">
-                    <label for="direccion">Dirección:</label>
-                    <input type="text" id="direccion" name="direccion" placeholder="Ej. Calle 123" required>
+                    <label for="hora_cita">Hora de Cita:</label>
+                    <select id="hora_cita" name="hora_cita" required>
+                        <option value="">Seleccione una hora</option>
+                        <option value="09:00">09:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="11:00">11:00</option>
+                        <option value="14:00">14:00</option>
+                        <option value="15:00">15:00</option>
+                    </select>
                 </div>
-                <div class="input-group">
-                    <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
-                </div>
-                <button type="submit" class="btn glass-button">Registrar</button>
+                <button type="submit" class="btn glass-button">Agendar Cita</button>
             </form>
         </div>
+    </div>
 
-       
-        <div id="cita-modal" class="modal" style="display: none;">
-            <div class="modal-content glass-effect">
-                <span class="close">&times;</span>
-                <h2>Agendar Cita</h2>
-                <form id="formulario-citas" action="/schedule" method="POST">
-                    <div class="input-group">
-                        <label for="fecha_cita">Fecha de Cita:</label>
-                        <input type="date" id="fecha_cita" name="fecha_cita" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="hora_cita">Hora de Cita:</label>
-                        <select id="hora_cita" name="hora_cita" required>
-                            <option value="">Seleccione una hora</option>
-                            <option value="09:00">09:00</option>
-                            <option value="10:00">10:00</option>
-                            <option value="11:00">11:00</option>
-                            <option value="14:00">14:00</option>
-                            <option value="15:00">15:00</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn glass-button">Agendar Cita</button>
-                </form>
-            </div>
-        </div>
+    <footer>
+        <p> Ugalde | Servicio las 24 horas</p>
+    </footer>
+</main>
 
-        <footer>
-            <p> Ugalde | Servicio las 24 horas</p>
-        </footer>
-    </main>
-    
-    <script src="static/js/script.js" defer></script>
+<script src="static/js/script.js" defer></script>
 </body>
 </html>
+
